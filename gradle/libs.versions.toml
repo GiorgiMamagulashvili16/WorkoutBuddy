@@ -1,0 +1,20 @@
+[versions]
+compose = "1.3.1"
+core = "1.7.0"
+lifecycle = "2.3.1"
+material3 = "1.0.1"
+navigation = "2.5.3"
+koin = "3.1.5"
+coroutines = "1.5.0"
+
+[libraries]
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
+lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+material3-compose = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }

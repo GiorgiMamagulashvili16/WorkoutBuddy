@@ -1,0 +1,10 @@
+apply plugin: 'GradleCommonConfig'
+
+android {
+    namespace 'com.workout_buddy.onboarding.impl'
+}
+
+dependencies {
+    implementation project(":feature:onboarding:api")
+    implementation libs.compose.navigation
+}
