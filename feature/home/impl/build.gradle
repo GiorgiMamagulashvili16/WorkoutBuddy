@@ -1,0 +1,10 @@
+apply plugin: 'GradleCommonConfig'
+
+android {
+    namespace 'com.workout_buddy.home.impl'
+}
+
+dependencies {
+    implementation project(":feature:home:api")
+    implementation libs.compose.navigation
+}
