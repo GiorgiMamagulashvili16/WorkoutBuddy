@@ -5,6 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.workout_buddy.onboarding.api.OnBoardingNavigator
+import com.workout_buddy.onboarding.impl.presentation.onBoarding_screen.ui.OnBoardingScreen
+import com.workout_buddy.onboarding.impl.presentation.onBoarding_screen.vm.OnBoardingVm
+import org.koin.androidx.compose.viewModel
 
 class OnBoardingNavigatorImpl: OnBoardingNavigator {
     private val baseRoute = "onBoarding"
@@ -19,7 +22,12 @@ class OnBoardingNavigatorImpl: OnBoardingNavigator {
         modifier: Modifier
     ) {
         navGraphBuilder.composable(baseRoute) {
-            //TODO add onboarding screen here
+            val vm by viewModel<OnBoardingVm>()
+            OnBoardingScreen(
+                onThemeChange = {
+                    vm.setDarkModeStatus(it)
+                }
+            )
         }
     }
 }
