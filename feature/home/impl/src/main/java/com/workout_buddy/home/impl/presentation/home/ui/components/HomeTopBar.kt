@@ -1,4 +1,4 @@
-package com.workout_buddy.home.impl.presentation.ui
+package com.workout_buddy.home.impl.presentation.home.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

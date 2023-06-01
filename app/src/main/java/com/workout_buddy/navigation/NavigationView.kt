@@ -21,11 +21,13 @@ fun NavigationView(
     ) {
         registerGraph(
             featureNavigationApi = onBoardingNavigator,
-            navHostController = navController
+            navHostController = navController,
+            callback = {}
         )
         registerGraph(
             featureNavigationApi = homeNavigator,
-            navHostController = navController
+            navHostController = navController,
+            callback = {}
         )
     }
 }

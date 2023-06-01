@@ -6,5 +6,8 @@ android {
 
 dependencies {
     implementation project(":feature:home:api")
+    implementation project(":core:common")
     implementation libs.compose.navigation
+    implementation libs.compose.constraint
+    implementation libs.koin
 }

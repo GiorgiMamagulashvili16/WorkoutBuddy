@@ -1,0 +1,113 @@
+{
+  ConstraintSets: {
+    start: {
+      main_fab: {
+        visibility: 'visible',
+        bottom: [
+          'parent',
+          'bottom',
+          20
+        ],
+        end: [
+          'parent',
+          'end',
+          20
+        ]
+      },
+      add_workout_fab: {
+        visibility: 'invisible',
+        bottom: [
+          'main_fab',
+          'top',
+          0
+        ],
+        end: [
+          'main_fab',
+          'end',
+          0
+        ],
+        start: [
+          'main_fab',
+          'start',
+          0
+        ]
+      },
+      add_note_fab: {
+        visibility: 'invisible',
+        bottom: [
+          'main_fab',
+          'bottom',
+          0
+        ],
+        end: [
+          'main_fab',
+          'start',
+          0
+        ],
+        top: [
+          'main_fab',
+          'top',
+          0
+        ]
+      }
+    },
+    end: {
+      main_fab: {
+        visibility: 'visible',
+        bottom: [
+          'parent',
+          'bottom',
+          20
+        ],
+        end: [
+          'parent',
+          'end',
+          21
+        ]
+      },
+      add_workout_fab: {
+        visibility: 'visible',
+        bottom: [
+          'main_fab',
+          'top',
+          15
+        ],
+        end: [
+          'main_fab',
+          'end',
+          0
+        ],
+        start: [
+          'main_fab',
+          'start',
+          0
+        ]
+      },
+      add_note_fab: {
+        visibility: 'visible',
+        bottom: [
+          'main_fab',
+          'bottom',
+          0
+        ],
+        end: [
+          'main_fab',
+          'start',
+          15
+        ],
+        top: [
+          'main_fab',
+          'top',
+          0
+        ]
+      },
+    },
+    Transitions: {
+      default: {
+        from: 'start',
+        to: 'end',
+        pathMotionArc: 'startHorizontal',
+      }
+    }
+  }
+}

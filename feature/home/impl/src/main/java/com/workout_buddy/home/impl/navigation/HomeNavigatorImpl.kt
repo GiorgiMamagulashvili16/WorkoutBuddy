@@ -9,11 +9,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.workout_buddy.home.api.HomeNavigator
-import com.workout_buddy.home.impl.presentation.ui.HomeScreen
+import com.workout_buddy.home.impl.presentation.home.ui.HomeScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
-class HomeNavigatorImpl: HomeNavigator {
+class HomeNavigatorImpl : HomeNavigator {
 
     private val homeRoute = "home"
 
@@ -24,7 +24,7 @@ class HomeNavigatorImpl: HomeNavigator {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavHostController,
-        modifier: Modifier
+        callback: (() -> Unit)
     ) {
         navGraphBuilder.composable(homeRoute) {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -38,8 +38,23 @@ class HomeNavigatorImpl: HomeNavigator {
                 },
                 onCalculationItemClick = {
                     //TODO make calculation screen navigation
+                },
+                onAddWorkoutClick = {
+                    navController.navigate(HomeFlowNavigator.getSelectCategoryRoute())
+                },
+                onAddNoteClick = {
+                    //TODO navigate to add daily notes
+                },
+                onSavedNotesClick = {
+                    //TODO navigate to saved notes
                 }
             )
         }
+
+        HomeFlowNavigator.registerGraph(
+            navController = navController,
+            navGraphBuilder = navGraphBuilder,
+            callback = callback
+        )
     }
 }
