@@ -3,11 +3,12 @@ package com.workout_buddy.home.impl.navigation
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.workout_buddy.core.navigation.FeatureNavigatorApi
+import com.workout_buddy.home.impl.domain.model.WorkoutModel
+import com.workout_buddy.home.impl.domain.model.WorkoutsCategory
 import com.workout_buddy.home.impl.presentation.select_add_workout.ui.SelectAddWorkoutScreen
 import com.workout_buddy.home.impl.presentation.select_add_workout.vm.SelectAddWorkoutVm
 import com.workout_buddy.home.impl.presentation.select_category.ui.SelectCategoryScreen
@@ -49,15 +50,25 @@ internal object HomeFlowNavigator : FeatureNavigatorApi {
                 route = selectAddWorkoutRoute,
                 arguments = listOf(
                     navArgument(categoryIdNavType) {
-                        type = NavType.IntType
+                        type = WorkoutNavType()
                     }
                 )
             ) {
                 val vm: SelectAddWorkoutVm by inject()
-                it.arguments?.getInt(categoryIdNavType)?.let { id ->
-                    vm.setCurrentWorkoutsByCategoryId(id)
+                it.arguments?.getParcelable<WorkoutsCategory>(categoryIdNavType)?.let { model ->
+                    vm.setSelectedWorkoutCategory(model)
                 }
-                SelectAddWorkoutScreen()
+
+                val workoutTitle = vm.workoutTitle.collectAsState().value
+                SelectAddWorkoutScreen(
+                    workoutTitle = workoutTitle,
+                    onWorkoutChanged = { title ->
+                        vm.setWorkoutTitle(title)
+                    },
+                    onSaveButtonClick = {
+
+                    }
+                )
             }
         }
     }

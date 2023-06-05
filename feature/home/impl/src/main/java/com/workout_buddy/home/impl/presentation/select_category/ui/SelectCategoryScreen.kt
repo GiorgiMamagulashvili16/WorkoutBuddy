@@ -37,13 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.workout_buddy.home.impl.R
 import com.workout_buddy.home.impl.domain.model.WorkoutsCategory
-import com.workout_buddy.home.impl.presentation.select_category.states.SelectWorkoutScreenState
+import com.workout_buddy.home.impl.presentation.select_category.states.SelectCategoryScreenState
 import com.workout_buddy.core.common.extensions.getColorFromHex
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectCategoryScreen(
-    screenState: SelectWorkoutScreenState,
+    screenState: SelectCategoryScreenState,
     onCategoryClick: (Int) -> Unit
 ) {
     Scaffold(
