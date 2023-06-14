@@ -8,9 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.workout_buddy.core.navigation.CallBackState
+import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
 import com.workout_buddy.home.api.HomeNavigator
 import com.workout_buddy.home.impl.presentation.home.ui.HomeScreen
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 class HomeNavigatorImpl : HomeNavigator {
@@ -24,9 +27,11 @@ class HomeNavigatorImpl : HomeNavigator {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavHostController,
-        callback: (() -> Unit)
+        callback: ((CallBackState) -> Unit)
     ) {
         navGraphBuilder.composable(homeRoute) {
+            val addSelectNavigator: AddSelectNavigator by inject()
+
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val scope = rememberCoroutineScope()
             HomeScreen(
@@ -40,7 +45,8 @@ class HomeNavigatorImpl : HomeNavigator {
                     //TODO make calculation screen navigation
                 },
                 onAddWorkoutClick = {
-                    navController.navigate(HomeFlowNavigator.getSelectCategoryRoute())
+                    callback.invoke(HomeNavCallbackState.NavToAddSelectWorkout)
+                    navController.navigate(addSelectNavigator.getAddSelectRoute())
                 },
                 onAddNoteClick = {
                     //TODO navigate to add daily notes
@@ -50,11 +56,5 @@ class HomeNavigatorImpl : HomeNavigator {
                 }
             )
         }
-
-        HomeFlowNavigator.registerGraph(
-            navController = navController,
-            navGraphBuilder = navGraphBuilder,
-            callback = callback
-        )
     }
 }

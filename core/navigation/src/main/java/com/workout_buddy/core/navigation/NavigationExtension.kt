@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 fun NavGraphBuilder.registerGraph(
     featureNavigationApi: FeatureNavigatorApi,
     navHostController: NavHostController,
-    callback: (() -> Unit)
+    callback: ((CallBackState) -> Unit)
 ) {
     featureNavigationApi.registerGraph(
         navGraphBuilder = this,

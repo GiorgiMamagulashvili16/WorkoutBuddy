@@ -65,4 +65,6 @@ dependencies {
     implementation project(":feature:onboarding:impl")
     implementation project(":feature:home:api")
     implementation project(":feature:home:impl")
+    implementation project(":feature:add-select:api")
+    implementation project(":feature:add-select:impl")
 }
