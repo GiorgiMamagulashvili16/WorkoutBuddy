@@ -6,6 +6,9 @@ material3 = "1.0.1"
 navigation = "2.5.3"
 koin = "3.1.5"
 coroutines = "1.5.0"
+constraint = "1.0.1"
+room = "2.5.1"
+gson = "2.8.7"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
@@ -18,3 +21,9 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint" }
+room-runtime = { module = " androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+material = {module = "androidx.compose.material:material", version.ref = "compose"}
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

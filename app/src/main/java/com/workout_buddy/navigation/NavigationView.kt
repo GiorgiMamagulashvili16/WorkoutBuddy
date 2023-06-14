@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.workout_buddy.core.navigation.registerGraph
+import com.workout_buddy.home.api.HomeNavigator
 import com.workout_buddy.onboarding.api.OnBoardingNavigator
 import org.koin.androidx.compose.inject
 
@@ -12,14 +13,21 @@ fun NavigationView(
     navController: NavHostController
 ) {
     val onBoardingNavigator by inject<OnBoardingNavigator>()
+    val homeNavigator by inject<HomeNavigator>()
 
     NavHost(
         navController = navController,
-        startDestination = onBoardingNavigator.getOnBoardingRoute()
+        startDestination = homeNavigator.getHomeRoute()
     ) {
         registerGraph(
             featureNavigationApi = onBoardingNavigator,
-            navHostController = navController
+            navHostController = navController,
+            callback = {}
+        )
+        registerGraph(
+            featureNavigationApi = homeNavigator,
+            navHostController = navController,
+            callback = {}
         )
     }
 }

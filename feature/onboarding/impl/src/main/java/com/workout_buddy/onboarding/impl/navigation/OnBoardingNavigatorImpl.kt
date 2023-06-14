@@ -16,7 +16,7 @@ class OnBoardingNavigatorImpl: OnBoardingNavigator {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavHostController,
-        modifier: Modifier
+        callback: () -> Unit
     ) {
         navGraphBuilder.composable(baseRoute) {
             //TODO add onboarding screen here
