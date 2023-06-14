@@ -1,0 +1,15 @@
+apply plugin: 'GradleCommonConfig'
+
+android {
+    namespace 'com.workout_buddy.add_select.impl'
+}
+
+dependencies {
+    implementation project(":feature:add-select:api")
+    implementation project(":core:common")
+    implementation project(":core:database")
+    implementation libs.compose.navigation
+    implementation libs.compose.constraint
+    implementation libs.koin
+    implementation libs.gson
+}

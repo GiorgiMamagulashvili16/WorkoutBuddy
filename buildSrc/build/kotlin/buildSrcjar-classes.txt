@@ -1,1 +1,1 @@
-/Users/giorgi.mamagulashvil/AndroidStudioProjects/WorkoutBudy/buildSrc/build/classes/groovy/main/GradleCommonConfig.class:/Users/giorgi.mamagulashvil/AndroidStudioProjects/WorkoutBudy/buildSrc/build/classes/kotlin/main/ProjectConfig.class
+/Users/mamagulashvili/StudioProjects/WorkoutBuddy/buildSrc/build/classes/groovy/main/GradleCommonConfig.class:/Users/mamagulashvili/StudioProjects/WorkoutBuddy/buildSrc/build/classes/kotlin/main/ProjectConfig.class
