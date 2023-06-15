@@ -77,6 +77,7 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 val screenState = vm.screenState.collectAsState().value
 
                 SelectAddWorkoutScreen(
+                    navController = navController,
                     workoutTitle = workoutTitle,
                     showEmptyListMessage = screenState.showEmptyWorkoutsAlert,
                     workoutList = screenState.workoutsList,

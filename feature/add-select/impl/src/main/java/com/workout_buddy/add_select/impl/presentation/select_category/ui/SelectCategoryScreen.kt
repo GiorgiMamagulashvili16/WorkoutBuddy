@@ -41,24 +41,28 @@ import com.workout_buddy.core.common.extensions.getColorFromHex
 @Composable
 fun SelectCategoryScreen(
     screenState: SelectCategoryScreenState,
-    onCategoryClick: (WorkoutsCategory) -> Unit
+    onCategoryClick: (WorkoutsCategory) -> Unit,
+    onNavBack: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface),
     ) {
+
         Column(
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize(),
             horizontalAlignment = CenterHorizontally
         ) {
-
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(15.dp)
+            )
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 IconButton(
-                    onClick = { /*TODO navigate to back*/ },
+                    onClick = { onNavBack.invoke() },
                 ) {
                     Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back nav")
                 }

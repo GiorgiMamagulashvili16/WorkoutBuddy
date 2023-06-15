@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import androidx.activity.compose.BackHandler
+import androidx.navigation.NavController
+import org.koin.core.context.unloadKoinModules
+import org.koin.core.module.Module
 
 
 fun ViewModel.executeIO(block: suspend CoroutineScope.() -> Unit) {
@@ -38,9 +42,25 @@ fun <T> ViewModel.executeWork(
 @Composable
 fun <T> Channel<T>.CollectChannelComposable(block: suspend (T) -> Unit) {
     LaunchedEffect(key1 = this, block = {
-            this@CollectChannelComposable.consumeAsFlow().onEach {
-                block.invoke(it)
-            }.collect()
-        }
+        this@CollectChannelComposable.consumeAsFlow().onEach {
+            block.invoke(it)
+        }.collect()
+    }
     )
+}
+
+@Composable
+fun HandleBackNavigation(
+    navController: NavController,
+    enablePop: Boolean = false,
+    koinModule: Module? = null
+) {
+    BackHandler {
+        if (enablePop) {
+            navController.popBackStack()
+        }
+        if (koinModule != null) {
+            unloadKoinModules(koinModule)
+        }
+    }
 }

@@ -15,17 +15,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +43,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.workout_buddy.core.common.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputDialog(
     value: String,
@@ -70,7 +69,7 @@ fun InputDialog(
             setShowDialog.invoke(false)
         }
     ) {
-        Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colors.background) {
+        Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.background) {
             Box(contentAlignment = Alignment.Center) {
                 Column(
                     modifier = Modifier.padding(20.dp),
@@ -85,7 +84,7 @@ fun InputDialog(
                         Text(
                             text = "Workout",
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onSurface
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Icon(
                             imageVector = Icons.Filled.Close,
@@ -119,10 +118,10 @@ fun InputDialog(
                         placeholder = {
                             Text(text = "Enter value")
                         },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            textColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurface,
-                            disabledBorderColor = androidx.compose.material3.MaterialTheme.colorScheme.surface,
-                            cursorColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            disabledBorderColor = MaterialTheme.colorScheme.surface,
+                            cursorColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = Color.Transparent,
                             focusedBorderColor = Color.Transparent
                         ),
@@ -150,10 +149,10 @@ fun InputDialog(
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = MaterialTheme.colors.primary
+                                containerColor = MaterialTheme.colorScheme.primary
                             )
                         ) {
-                            Text(text = "Save", color = MaterialTheme.colors.onPrimary)
+                            Text(text = "Save", color = MaterialTheme.colorScheme.onPrimary)
                         }
                     }
                 }

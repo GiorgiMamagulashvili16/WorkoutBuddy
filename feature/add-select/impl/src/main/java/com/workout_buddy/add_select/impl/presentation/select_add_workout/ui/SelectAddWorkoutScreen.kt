@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,22 +30,31 @@ import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.add_select.impl.domain.model.WorkoutModel
+import com.workout_buddy.add_select.impl.presentation.select_add_workout.di.selectAddWorkoutModule
+import com.workout_buddy.core.common.extensions.HandleBackNavigation
 import com.workout_buddy.core.common.extensions.getColorFromHex
 import com.workout_buddy.core.common.ui.InputDialog
 
 @Composable
 fun SelectAddWorkoutScreen(
+    navController: NavController,
     workoutTitle: String,
     showEmptyListMessage: Boolean,
     workoutList: List<WorkoutModel>,
     onWorkoutChanged: (String) -> Unit
 ) {
+    HandleBackNavigation(
+        navController = navController,
+        enablePop = true,
+        koinModule = selectAddWorkoutModule
+    )
+
     val showInputDialog = remember {
         mutableStateOf(false)
     }
-
     if (showInputDialog.value) {
         InputDialog(
             value = workoutTitle,

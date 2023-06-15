@@ -50,5 +50,4 @@ dependencies {
     implementation libs.lifecycle.ktx
     implementation libs.compose.ui
     implementation libs.material3.compose
-    implementation libs.material
 }

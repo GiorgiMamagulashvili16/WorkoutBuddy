@@ -1,6 +1,7 @@
 package com.workout_buddy.base_app
 
 import android.app.Application
+import com.workout_buddy.core.common.di.commonModule
 import com.workout_buddy.core.database.di.dbModule
 import com.workout_buddy.navigation.navigationModule
 import org.koin.android.ext.koin.androidContext
@@ -16,6 +17,7 @@ class WorkoutBuddyBaseApp: Application() {
                 listOf(
                     navigationModule,
                     dbModule,
+                    commonModule
                 )
             )
         }
