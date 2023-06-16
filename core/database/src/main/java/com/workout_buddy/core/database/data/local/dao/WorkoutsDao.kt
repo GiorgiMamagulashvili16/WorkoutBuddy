@@ -1,4 +1,4 @@
-package com.workout_buddy.core.database.dao
+package com.workout_buddy.core.database.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

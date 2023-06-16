@@ -1,6 +1,5 @@
 package com.workout_buddy.home.impl.presentation.home.ui
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.workout_buddy.core.common.extensions.getTimeFromMs
 import com.workout_buddy.core.common.ui.WorkoutDatePicker
 import com.workout_buddy.home.impl.presentation.home.ui.components.HomeFabButtons
 import com.workout_buddy.home.impl.presentation.home.ui.components.HomeNavigationDrawer
@@ -74,7 +71,7 @@ fun HomeScreen(
                     AnimatedVisibility(visible = showCalendar.value) {
                         WorkoutDatePicker(
                             onGetValue = {
-                                Log.d("TIMETIME", it.getTimeFromMs())
+
                             },
                             modifier = Modifier.fillMaxWidth()
                         )

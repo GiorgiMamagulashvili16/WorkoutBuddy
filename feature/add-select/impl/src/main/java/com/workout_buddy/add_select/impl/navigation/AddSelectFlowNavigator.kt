@@ -1,6 +1,5 @@
 package com.workout_buddy.add_select.impl.navigation
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,9 +15,8 @@ import com.workout_buddy.core.common.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.ui.MessageDialog
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.core.navigation.FeatureNavigatorApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.onEach
+import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
+import com.workout_buddy.home.api.HomeNavigator
 import org.koin.androidx.compose.inject
 
 object AddSelectFlowNavigator : FeatureNavigatorApi {
@@ -47,6 +45,9 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 )
             ) {
                 val vm: SelectAddWorkoutVm by inject()
+                val homeNavigator: HomeNavigator by inject()
+                val addSelectNavigator: AddSelectNavigator by inject()
+
 
                 val showMessageDialog = remember {
                     mutableStateOf("")
@@ -66,11 +67,18 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 }
                 val workoutTitle = vm.workoutTitle.collectAsState().value
                 vm.screenAlertChannel.CollectChannelComposable(block = { state ->
-                    if (state.isSuccess) {
+                    if (state.isAddWorkoutSuccess) {
                         vm.setSelectedWorkoutCategory()
                     }
                     if (state.errorMes != null) {
                         showMessageDialog.value = state.errorMes
+                    }
+                    if (state.isAddSelectedWorkoutSuccess) {
+                        navController.navigate(homeNavigator.getHomeRoute()) {
+                            popUpTo(addSelectNavigator.getAddSelectRoute()) {
+                                inclusive = true
+                            }
+                        }
                     }
                 })
 
@@ -83,6 +91,9 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                     workoutList = screenState.workoutsList,
                     onWorkoutChanged = { title ->
                         vm.saveNewWorkout(title)
+                    },
+                    onItemClick = { model ->
+                        vm.insertSelectedWorkout(model)
                     }
                 )
             }

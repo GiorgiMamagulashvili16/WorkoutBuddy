@@ -44,7 +44,8 @@ fun SelectAddWorkoutScreen(
     workoutTitle: String,
     showEmptyListMessage: Boolean,
     workoutList: List<WorkoutModel>,
-    onWorkoutChanged: (String) -> Unit
+    onWorkoutChanged: (String) -> Unit,
+    onItemClick: (WorkoutModel) -> Unit
 ) {
     HandleBackNavigation(
         navController = navController,
@@ -79,7 +80,13 @@ fun SelectAddWorkoutScreen(
         if (workoutList.isNotEmpty()) {
             LazyColumn(modifier = Modifier.fillMaxWidth(0.9f)) {
                 items(workoutList) { item ->
-                    WorkoutItem(item = item, modifier = Modifier.height(60.dp))
+                    WorkoutItem(
+                        item = item,
+                        modifier = Modifier.height(60.dp),
+                        onItemClick = {
+                            onItemClick.invoke(it)
+                        }
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
@@ -102,9 +109,10 @@ fun SelectAddWorkoutScreen(
 fun WorkoutItem(
     modifier: Modifier = Modifier,
     item: WorkoutModel,
+    onItemClick: (WorkoutModel) -> Unit
 ) {
     Card(
-        onClick = { },
+        onClick = { onItemClick.invoke(item) },
         shape = RoundedCornerShape(9.dp),
         modifier = modifier,
         border = BorderStroke(

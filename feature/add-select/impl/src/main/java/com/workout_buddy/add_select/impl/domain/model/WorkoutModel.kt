@@ -1,6 +1,7 @@
 package com.workout_buddy.add_select.impl.domain.model
 
 import android.os.Parcelable
+import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
 import com.workout_buddy.core.database.entity.WorkoutEntity
 import kotlinx.parcelize.Parcelize
 
@@ -23,5 +24,10 @@ fun WorkoutEntity.toWorkoutModel() = WorkoutModel(
     title = title,
     categoryId = categoryId,
     colorHex = colorHex
+)
+
+fun WorkoutModel.toSelectedWorkoutEntity() = SelectedWorkoutEntity(
+    title = title!!,
+    categoryId = categoryId!!,
 )
 

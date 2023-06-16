@@ -29,10 +29,13 @@ class SelectAddWorkoutVm(
     fun setCurrentCategory(workoutsCategory: WorkoutsCategory) {
         currentCategory.update { workoutsCategory }
     }
+
     fun setSelectedWorkoutCategory(workoutsCategory: WorkoutsCategory? = null) {
         executeWork(
             block = {
-                selectAddWorkoutUseCase.getAllSavedWorkouts(workoutsCategory?.id ?: currentCategory.value?.id!!)
+                selectAddWorkoutUseCase.getAllSavedWorkouts(
+                    workoutsCategory?.id ?: currentCategory.value?.id!!
+                )
             },
             onSuccess = {
                 screenStateFlow.value = it
@@ -79,7 +82,28 @@ class SelectAddWorkoutVm(
                 selectAddWorkoutUseCase.insertWorkout(model)
             },
             onSuccess = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isSuccess = true))
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isAddWorkoutSuccess = true))
+            },
+            loading = {
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
+            },
+            onError = {
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it.message))
+            }
+        )
+    }
+
+    fun insertSelectedWorkout(workoutModel: WorkoutModel) {
+        executeWork(
+            block = {
+                selectAddWorkoutUseCase.insertSelectedWorkoutItem(workoutModel)
+            },
+            onSuccess = {
+                screenAlertChannel.trySend(
+                    SelectAddWorkoutScreenAlertState(
+                        isAddSelectedWorkoutSuccess = true
+                    )
+                )
             },
             loading = {
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
