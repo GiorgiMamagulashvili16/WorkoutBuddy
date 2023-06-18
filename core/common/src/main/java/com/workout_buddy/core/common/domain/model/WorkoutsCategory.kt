@@ -5,8 +5,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class WorkoutsCategory(
-    val title: String,
-    val imageRes: Int,
-    val colorHex: String,
-    val id: Int
-) : Parcelable
+    val id: Int,
+    override val colorHex: String,
+    override val title: String,
+    override val imageRes: Int?
+) : WorkoutBaseModel(), Parcelable
+
+abstract class WorkoutBaseModel {
+    abstract val colorHex: String
+    abstract val title: String
+    abstract val imageRes: Int?
+}

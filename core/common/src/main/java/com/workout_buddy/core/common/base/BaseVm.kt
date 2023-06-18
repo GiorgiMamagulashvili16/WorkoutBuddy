@@ -4,5 +4,5 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.channels.Channel
 
 abstract class BaseVm: ViewModel() {
-    val screenAlertChannel = Channel<BaseChannelState>(Channel.CONFLATED)
+    val screenAlertChannel = Channel<BaseChannelState>(Channel.UNLIMITED)
 }
