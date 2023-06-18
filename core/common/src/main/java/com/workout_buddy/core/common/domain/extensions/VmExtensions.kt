@@ -1,4 +1,4 @@
-package com.workout_buddy.core.common.extensions
+package com.workout_buddy.core.common.domain.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +12,12 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import androidx.activity.compose.BackHandler
+import androidx.compose.runtime.collectAsState
+import androidx.navigation.NavController
+import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.context.unloadKoinModules
+import org.koin.core.module.Module
 
 
 fun ViewModel.executeIO(block: suspend CoroutineScope.() -> Unit) {
@@ -38,9 +44,30 @@ fun <T> ViewModel.executeWork(
 @Composable
 fun <T> Channel<T>.CollectChannelComposable(block: suspend (T) -> Unit) {
     LaunchedEffect(key1 = this, block = {
-            this@CollectChannelComposable.consumeAsFlow().onEach {
-                block.invoke(it)
-            }.collect()
-        }
+        this@CollectChannelComposable.consumeAsFlow().onEach {
+            block.invoke(it)
+        }.collect()
+    }
     )
+}
+
+@Composable
+fun HandleBackNavigation(
+    navController: NavController,
+    enablePop: Boolean = false,
+    koinModule: Module? = null
+) {
+    BackHandler {
+        if (enablePop) {
+            navController.popBackStack()
+        }
+        if (koinModule != null) {
+            unloadKoinModules(koinModule)
+        }
+    }
+}
+
+@Composable
+fun <T> StateFlow<T>.getFlowValue(): T {
+    return this.collectAsState().value
 }

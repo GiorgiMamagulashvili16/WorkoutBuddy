@@ -34,6 +34,9 @@ class AddSelectNavigatorImpl: AddSelectNavigator {
                     NavigationUtil.navigateToSelectAddWorkout(
                         navController, AddSelectFlowNavigator.getSelectAddWorkoutRoute(json)
                     )
+                },
+                onNavBack = {
+                    navController.popBackStack()
                 }
             )
         }

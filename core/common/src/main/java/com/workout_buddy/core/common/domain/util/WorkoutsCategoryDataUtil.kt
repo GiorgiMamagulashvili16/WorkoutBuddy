@@ -1,10 +1,10 @@
-package com.workout_buddy.add_select.impl.presentation.select_category.util
+package com.workout_buddy.core.common.domain.util
 
-import com.workout_buddy.add_select.impl.R
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
+import com.workout_buddy.core.common.R
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 
-object WorkoutsDropDownUtil {
-    fun provideWorkoutsList() = listOf(
+object WorkoutsCategoryDataUtil {
+    fun provideWorkoutsCategoryList() = listOf(
         WorkoutsCategory(
             title = "Chest",
             imageRes = R.drawable.img_chest,

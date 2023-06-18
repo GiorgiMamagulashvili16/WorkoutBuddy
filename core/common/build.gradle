@@ -4,4 +4,6 @@ android {
 }
 dependencies {
     implementation(libs.koin)
+    implementation libs.compose.navigation
+    implementation libs.compose.constraint
 }

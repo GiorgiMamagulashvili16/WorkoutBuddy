@@ -1,4 +1,4 @@
-package com.workout_buddy.core.common.extensions
+package com.workout_buddy.core.common.domain.extensions
 
 import androidx.compose.ui.graphics.Color
 

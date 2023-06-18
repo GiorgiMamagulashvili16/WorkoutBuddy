@@ -1,6 +1,5 @@
 package com.workout_buddy.add_select.impl.navigation
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,16 +8,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
+import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenAlertState
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.ui.SelectAddWorkoutScreen
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.vm.SelectAddWorkoutVm
-import com.workout_buddy.core.common.extensions.CollectChannelComposable
+import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
+import com.workout_buddy.core.common.domain.extensions.getFlowValue
 import com.workout_buddy.core.common.ui.MessageDialog
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.core.navigation.FeatureNavigatorApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.onEach
+import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
+import com.workout_buddy.home.api.HomeNavigator
 import org.koin.androidx.compose.inject
 
 object AddSelectFlowNavigator : FeatureNavigatorApi {
@@ -47,6 +47,9 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 )
             ) {
                 val vm: SelectAddWorkoutVm by inject()
+                val homeNavigator: HomeNavigator by inject()
+                val addSelectNavigator: AddSelectNavigator by inject()
+
 
                 val showMessageDialog = remember {
                     mutableStateOf("")
@@ -65,24 +68,42 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                     )
                 }
                 val workoutTitle = vm.workoutTitle.collectAsState().value
-                vm.screenAlertChannel.CollectChannelComposable(block = { state ->
-                    if (state.isSuccess) {
-                        vm.setSelectedWorkoutCategory()
-                    }
-                    if (state.errorMes != null) {
-                        showMessageDialog.value = state.errorMes
-                    }
-                })
+                vm.screenAlertChannel.CollectChannelComposable(
+                    block = { alertState ->
+                        val state = alertState as SelectAddWorkoutScreenAlertState
+
+                        if (state.isAddWorkoutSuccess) {
+                            vm.setSelectedWorkoutCategory()
+                        }
+                        if (state.errorMes != null) {
+                            showMessageDialog.value = state.errorMes
+                        }
+                        if (state.isAddSelectedWorkoutSuccess) {
+                            navController.navigate(homeNavigator.getHomeRoute()) {
+                                popUpTo(addSelectNavigator.getAddSelectRoute()) {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    })
 
                 val screenState = vm.screenState.collectAsState().value
 
                 SelectAddWorkoutScreen(
+                    navController = navController,
                     workoutTitle = workoutTitle,
                     showEmptyListMessage = screenState.showEmptyWorkoutsAlert,
                     workoutList = screenState.workoutsList,
                     onWorkoutChanged = { title ->
                         vm.saveNewWorkout(title)
-                    }
+                    },
+                    onItemClick = { model ->
+                        vm.insertSelectedWorkout(model)
+                    },
+                    onNavBack = {
+                        navController.popBackStack()
+                    },
+                    workoutsCategoryTitle = vm.currentCategory.getFlowValue()?.title ?: ""
                 )
             }
         }

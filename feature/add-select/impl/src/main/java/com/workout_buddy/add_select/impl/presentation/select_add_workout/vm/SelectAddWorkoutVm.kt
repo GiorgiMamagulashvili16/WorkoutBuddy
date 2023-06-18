@@ -1,20 +1,19 @@
 package com.workout_buddy.add_select.impl.presentation.select_add_workout.vm
 
-import androidx.lifecycle.ViewModel
 import com.workout_buddy.add_select.impl.domain.model.WorkoutModel
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.domain.useCase.select_add_workout.SelectAddWorkoutUseCase
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenAlertState
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenState
-import com.workout_buddy.core.common.extensions.executeWork
-import kotlinx.coroutines.channels.Channel
+import com.workout_buddy.core.common.base.BaseVm
+import com.workout_buddy.core.common.domain.extensions.executeWork
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class SelectAddWorkoutVm(
     private val selectAddWorkoutUseCase: SelectAddWorkoutUseCase
-) : ViewModel() {
+) : BaseVm() {
 
     private val screenStateFlow = MutableStateFlow(SelectAddWorkoutScreenState())
     val screenState = screenStateFlow.asStateFlow()
@@ -22,17 +21,19 @@ class SelectAddWorkoutVm(
     private val workoutTitleFlow = MutableStateFlow("")
     val workoutTitle = workoutTitleFlow.asStateFlow()
 
-    val screenAlertChannel = Channel<SelectAddWorkoutScreenAlertState>(Channel.CONFLATED)
-
-    private val currentCategory = MutableStateFlow<WorkoutsCategory?>(null)
+    private val currentCategoryFlow = MutableStateFlow<WorkoutsCategory?>(null)
+    var currentCategory = currentCategoryFlow.asStateFlow()
 
     fun setCurrentCategory(workoutsCategory: WorkoutsCategory) {
-        currentCategory.update { workoutsCategory }
+        currentCategoryFlow.update { workoutsCategory }
     }
+
     fun setSelectedWorkoutCategory(workoutsCategory: WorkoutsCategory? = null) {
         executeWork(
             block = {
-                selectAddWorkoutUseCase.getAllSavedWorkouts(workoutsCategory?.id ?: currentCategory.value?.id!!)
+                selectAddWorkoutUseCase.getAllSavedWorkouts(
+                    workoutsCategory?.id ?: currentCategoryFlow.value?.id!!
+                )
             },
             onSuccess = {
                 screenStateFlow.value = it
@@ -79,7 +80,28 @@ class SelectAddWorkoutVm(
                 selectAddWorkoutUseCase.insertWorkout(model)
             },
             onSuccess = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isSuccess = true))
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isAddWorkoutSuccess = true))
+            },
+            loading = {
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
+            },
+            onError = {
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it.message))
+            }
+        )
+    }
+
+    fun insertSelectedWorkout(workoutModel: WorkoutModel) {
+        executeWork(
+            block = {
+                selectAddWorkoutUseCase.insertSelectedWorkoutItem(workoutModel)
+            },
+            onSuccess = {
+                screenAlertChannel.trySend(
+                    SelectAddWorkoutScreenAlertState(
+                        isAddSelectedWorkoutSuccess = true
+                    )
+                )
             },
             loading = {
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
@@ -92,7 +114,8 @@ class SelectAddWorkoutVm(
 
     private fun getWorkoutModelForInsert() = WorkoutModel(
         title = workoutTitle.value,
-        categoryId = currentCategory.value?.id,
-        colorHex = currentCategory.value?.colorHex
+        categoryId = currentCategoryFlow.value?.id,
+        colorHex = currentCategoryFlow.value?.colorHex!!,
+        imageRes = null
     )
 }
