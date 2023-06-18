@@ -4,4 +4,6 @@ import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
 
 interface SelectedWorkoutRepository {
     suspend fun insertSelectedWorkout(selectedWorkoutEntity: SelectedWorkoutEntity)
+
+    suspend fun getSelectedWorkoutsByDate(date: Long? = null): List<SelectedWorkoutEntity>
 }

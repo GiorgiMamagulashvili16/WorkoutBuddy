@@ -1,4 +1,4 @@
-package com.workout_buddy.add_select.impl.domain.model
+package com.workout_buddy.core.common.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

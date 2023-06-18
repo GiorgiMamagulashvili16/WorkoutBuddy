@@ -33,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.workout_buddy.add_select.impl.R
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.presentation.select_category.states.SelectCategoryScreenState
-import com.workout_buddy.core.common.extensions.getColorFromHex
+import com.workout_buddy.core.common.domain.extensions.getColorFromHex
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

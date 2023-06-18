@@ -8,10 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.ui.SelectAddWorkoutScreen
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.vm.SelectAddWorkoutVm
-import com.workout_buddy.core.common.extensions.CollectChannelComposable
+import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.ui.MessageDialog
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.core.navigation.FeatureNavigatorApi

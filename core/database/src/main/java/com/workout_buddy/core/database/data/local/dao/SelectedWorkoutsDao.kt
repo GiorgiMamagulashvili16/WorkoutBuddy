@@ -13,4 +13,6 @@ interface SelectedWorkoutsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkout(selectedWorkoutEntity: SelectedWorkoutEntity)
 
+    @Query("SELECT * FROM selected_workouts_table WHERE date = :date")
+    suspend fun getSelectedWorkoutsByDate(date: String): List<SelectedWorkoutEntity>
 }

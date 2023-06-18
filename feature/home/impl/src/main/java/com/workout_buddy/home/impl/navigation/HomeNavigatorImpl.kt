@@ -1,21 +1,24 @@
 package com.workout_buddy.home.impl.navigation
 
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
+import com.workout_buddy.core.common.domain.extensions.getFlowValue
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
 import com.workout_buddy.home.api.HomeNavigator
+import com.workout_buddy.home.impl.presentation.home.state.HomeScreenAlertState
 import com.workout_buddy.home.impl.presentation.home.ui.HomeScreen
+import com.workout_buddy.home.impl.presentation.home.vm.HomeVm
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.inject
 
-@OptIn(ExperimentalMaterial3Api::class)
 class HomeNavigatorImpl : HomeNavigator {
 
     private val homeRoute = "home"
@@ -31,11 +34,24 @@ class HomeNavigatorImpl : HomeNavigator {
     ) {
         navGraphBuilder.composable(homeRoute) {
             val addSelectNavigator: AddSelectNavigator by inject()
+            val vm: HomeVm by inject()
 
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val scope = rememberCoroutineScope()
+
+            val emptyListMessage = remember {
+                mutableStateOf<String?>(null)
+            }
+
+            vm.screenAlertChannel.CollectChannelComposable {
+                val state = it as HomeScreenAlertState
+                emptyListMessage.value = state.emptyListText
+            }
+
             HomeScreen(
                 drawerState = drawerState,
+                workoutList = vm.selectedWorkoutList.getFlowValue(),
+                selectedDateMillis = vm.selectedDateMillis.getFlowValue(),
                 onDrawerNavClick = {
                     scope.launch {
                         drawerState.open()
@@ -53,7 +69,16 @@ class HomeNavigatorImpl : HomeNavigator {
                 },
                 onSavedNotesClick = {
                     //TODO navigate to saved notes
-                }
+                },
+                onSelectDate = {
+                    with(vm) {
+                        setSelectedDateMillis(it)
+                        fetchSelectedWorkoutByDate(it)
+                        setDateInString(it)
+                    }
+                },
+                showEmptySelectedWorkoutMessage = emptyListMessage.value,
+                dateInString = vm.dateInString.getFlowValue()
             )
         }
     }

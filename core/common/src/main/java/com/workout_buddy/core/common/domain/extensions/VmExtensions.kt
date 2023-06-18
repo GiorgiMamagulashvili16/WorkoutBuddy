@@ -1,4 +1,4 @@
-package com.workout_buddy.core.common.extensions
+package com.workout_buddy.core.common.domain.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import androidx.activity.compose.BackHandler
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 
@@ -63,4 +65,9 @@ fun HandleBackNavigation(
             unloadKoinModules(koinModule)
         }
     }
+}
+
+@Composable
+fun <T> StateFlow<T>.getFlowValue(): T {
+    return this.collectAsState().value
 }

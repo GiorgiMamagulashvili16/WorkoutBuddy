@@ -1,4 +1,4 @@
-package com.workout_buddy.core.common.extensions
+package com.workout_buddy.core.common.domain.extensions
 
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules

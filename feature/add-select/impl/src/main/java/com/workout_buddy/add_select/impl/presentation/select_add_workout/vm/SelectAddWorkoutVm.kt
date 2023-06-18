@@ -2,11 +2,11 @@ package com.workout_buddy.add_select.impl.presentation.select_add_workout.vm
 
 import androidx.lifecycle.ViewModel
 import com.workout_buddy.add_select.impl.domain.model.WorkoutModel
-import com.workout_buddy.add_select.impl.domain.model.WorkoutsCategory
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.domain.useCase.select_add_workout.SelectAddWorkoutUseCase
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenAlertState
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenState
-import com.workout_buddy.core.common.extensions.executeWork
+import com.workout_buddy.core.common.domain.extensions.executeWork
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

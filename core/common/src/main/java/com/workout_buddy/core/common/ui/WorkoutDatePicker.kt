@@ -18,21 +18,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.workout_buddy.core.common.useCase.date.DateHandlerUseCase
-import com.workout_buddy.core.common.useCase.date.DateUnitState
+import com.workout_buddy.core.common.domain.useCase.date.DateHandlerUseCase
+import com.workout_buddy.core.common.domain.useCase.date.DateUnitState
 import org.koin.androidx.compose.inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutDatePicker(
     modifier: Modifier = Modifier,
-    onGetValue: (Long) -> Unit
+    onGetValue: (Long) -> Unit,
+    initialDateMillis: Long? = null
 ) {
     val dateHandler: DateHandlerUseCase by inject()
     val currentYear = dateHandler.getCurrentDateUnitInt(DateUnitState.YEAR)
     val datePickerState = remember {
         DatePickerState(
-            initialSelectedDateMillis = dateHandler.getCurrentTimeInMillis(),
+            initialSelectedDateMillis = initialDateMillis ?: dateHandler.getCurrentTimeInMillis(),
             initialDisplayedMonthMillis = null,
             initialDisplayMode = DisplayMode.Picker,
             yearRange = (currentYear - 1..currentYear)

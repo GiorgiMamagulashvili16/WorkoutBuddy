@@ -34,8 +34,8 @@ import androidx.navigation.NavController
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.add_select.impl.domain.model.WorkoutModel
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.di.selectAddWorkoutModule
-import com.workout_buddy.core.common.extensions.HandleBackNavigation
-import com.workout_buddy.core.common.extensions.getColorFromHex
+import com.workout_buddy.core.common.domain.extensions.HandleBackNavigation
+import com.workout_buddy.core.common.domain.extensions.getColorFromHex
 import com.workout_buddy.core.common.ui.InputDialog
 
 @Composable
