@@ -9,6 +9,7 @@ dependencies {
     implementation project(":feature:home:api")
     implementation project(":core:common")
     implementation project(":core:database")
+    api project(":core:network")
     implementation libs.compose.navigation
     implementation libs.compose.constraint
     implementation libs.koin

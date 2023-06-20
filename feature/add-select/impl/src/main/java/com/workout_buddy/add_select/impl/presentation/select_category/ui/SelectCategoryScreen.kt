@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -22,22 +24,30 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ExperimentalMotionApi
+import androidx.constraintlayout.compose.MotionLayout
+import androidx.constraintlayout.compose.MotionScene
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.add_select.impl.presentation.common.WorkoutListItem
-import com.workout_buddy.add_select.impl.presentation.select_category.states.SelectCategoryScreenState
 import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 
 @Composable
 fun SelectCategoryScreen(
-    screenState: SelectCategoryScreenState,
+    categoryList: List<WorkoutsCategory>,
     onCategoryClick: (WorkoutsCategory) -> Unit,
     onNavBack: () -> Unit
 ) {
@@ -75,7 +85,7 @@ fun SelectCategoryScreen(
                 Spacer(modifier = Modifier.width(20.dp))
             }
 
-            if (screenState.workoutsCategories.isEmpty()) {
+            if (categoryList.isEmpty()) {
                 Spacer(modifier = Modifier.fillMaxHeight(0.4f))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_workout),
@@ -94,11 +104,11 @@ fun SelectCategoryScreen(
             }
 
             SetupCategoryListUI(
-                data = screenState.workoutsCategories,
+                data = categoryList,
                 onCategoryClick = { workoutsCategory ->
                     onCategoryClick.invoke(workoutsCategory)
                 },
-                isVisible = screenState.workoutsCategories.isNotEmpty()
+                isVisible = categoryList.isNotEmpty()
             )
         }
     }
@@ -110,15 +120,23 @@ private fun SetupCategoryListUI(
     onCategoryClick: (WorkoutsCategory) -> Unit,
     isVisible: Boolean
 ) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxHeight(0.15f)
-            .background(Color.Transparent)
-    )
+    val listState = rememberLazyListState()
+    val listIndexState = remember { derivedStateOf { listState.firstVisibleItemIndex } }
+    if (listIndexState.value < 3) {
+        AnimatedVisibility(visible = listIndexState.value < 2) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxHeight(0.1f)
+                    .background(Color.Transparent)
+            )
+        }
+
+    }
     AnimatedVisibility(visible = isVisible) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth(0.9f),
-            horizontalAlignment = CenterHorizontally
+            horizontalAlignment = CenterHorizontally,
+            state = listState
         ) {
 
             items(items = data) { item ->
@@ -127,10 +145,12 @@ private fun SetupCategoryListUI(
                     data = item,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(60.dp)
                         .background(Color.Transparent),
                     onClick = { model -> onCategoryClick.invoke(model as WorkoutsCategory) }
                 )
             }
         }
     }
+
 }

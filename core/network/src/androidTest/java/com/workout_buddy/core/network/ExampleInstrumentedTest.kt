@@ -1,4 +1,4 @@
-package com.workout_buddy.core.database
+package com.workout_buddy.core.network
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.workout_buddy.core.database.test", appContext.packageName)
+        assertEquals("com.workout_buddy.core.network.test", appContext.packageName)
     }
 }

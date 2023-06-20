@@ -5,13 +5,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.workout_buddy.core.database.data.local.dao.SelectedWorkoutsDao
+import com.workout_buddy.core.database.data.local.dao.WorkoutCategoryDao
 import com.workout_buddy.core.database.data.local.dao.WorkoutsDao
 import com.workout_buddy.core.database.data.local.type_converter.WorkoutDbTypeConverters
 import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
+import com.workout_buddy.core.database.entity.WorkoutCategoryEntity
 import com.workout_buddy.core.database.entity.WorkoutEntity
 
 @Database(
-    entities = [WorkoutEntity::class, SelectedWorkoutEntity::class],
+    entities = [WorkoutEntity::class, SelectedWorkoutEntity::class, WorkoutCategoryEntity::class],
     version = 2,
     exportSchema = false
 )
@@ -22,4 +24,5 @@ abstract class WorkoutDatabase : RoomDatabase() {
 
     abstract fun getWorkoutDao(): WorkoutsDao
     abstract fun getSelectedWorkoutDao(): SelectedWorkoutsDao
+    abstract fun getCategoryDao(): WorkoutCategoryDao
 }

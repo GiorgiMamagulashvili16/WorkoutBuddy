@@ -1,4 +1,4 @@
-package com.workout_buddy.core.database
+package com.workout_buddy.core.network
 
 import org.junit.Test
 

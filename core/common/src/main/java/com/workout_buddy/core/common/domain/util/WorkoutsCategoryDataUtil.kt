@@ -42,4 +42,8 @@ object WorkoutsCategoryDataUtil {
             id = 6
         ),
     )
+
+    fun provideColors() = listOf(
+        "#e7835f","#D25380","#ebc15f","#e95e2f","#ebbab9"
+    )
 }

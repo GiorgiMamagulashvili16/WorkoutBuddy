@@ -3,7 +3,9 @@ package com.workout_buddy.add_select.impl.domain.model
 import android.os.Parcelable
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.core.common.domain.model.WorkoutBaseModel
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
+import com.workout_buddy.core.database.entity.WorkoutCategoryEntity
 import com.workout_buddy.core.database.entity.WorkoutEntity
 import kotlinx.parcelize.Parcelize
 
@@ -34,4 +36,15 @@ fun WorkoutModel.toSelectedWorkoutEntity() = SelectedWorkoutEntity(
     title = title,
     categoryId = categoryId!!,
 )
+fun WorkoutCategoryEntity.toCategoryModel() = WorkoutsCategory(
+    id = this.id!!,
+    colorHex = this.colorHex,
+    title = this.title,
+    imageRes = this.imageRes
+)
 
+fun WorkoutsCategory.toCategoryEntity() = WorkoutCategoryEntity(
+    colorHex = colorHex,
+    title = title,
+    imageRes = imageRes
+)

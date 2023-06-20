@@ -4,7 +4,7 @@ import com.workout_buddy.core.database.data.local.dao.WorkoutsDao
 import com.workout_buddy.core.database.domain.repository.SelectAddWorkoutRepository
 import com.workout_buddy.core.database.entity.WorkoutEntity
 
-class SelectAddWorkoutRepositoryImpl(
+internal class SelectAddWorkoutRepositoryImpl(
     private val workoutsDao: WorkoutsDao
 ) : SelectAddWorkoutRepository {
 

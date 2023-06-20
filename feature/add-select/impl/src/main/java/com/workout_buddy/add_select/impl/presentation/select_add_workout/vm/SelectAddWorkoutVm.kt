@@ -69,7 +69,7 @@ class SelectAddWorkoutVm(
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
             },
             onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it.message))
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
             }
         )
     }
@@ -86,7 +86,7 @@ class SelectAddWorkoutVm(
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
             },
             onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it.message))
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
             }
         )
     }
@@ -107,7 +107,7 @@ class SelectAddWorkoutVm(
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
             },
             onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it.message))
+                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
             }
         )
     }

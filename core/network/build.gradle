@@ -1,0 +1,7 @@
+apply plugin: 'GradleCommonConfig'
+android {
+    namespace = 'com.workout_buddy.core.network'
+}
+dependencies {
+
+}

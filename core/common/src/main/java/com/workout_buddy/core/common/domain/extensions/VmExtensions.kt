@@ -15,6 +15,9 @@ import java.lang.Exception
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.RedirectResponseException
+import io.ktor.client.plugins.ServerResponseException
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
@@ -27,7 +30,7 @@ fun ViewModel.executeIO(block: suspend CoroutineScope.() -> Unit) {
 fun <T> ViewModel.executeWork(
     block: suspend CoroutineScope.() -> T,
     onSuccess: (T) -> Unit,
-    onError: ((Exception) -> Unit)? = null,
+    onError: ((String) -> Unit)? = null,
     loading: ((Boolean) -> Unit)? = null,
 ) = viewModelScope.launch(Dispatchers.IO) {
     try {
@@ -35,9 +38,18 @@ fun <T> ViewModel.executeWork(
         val result = block.invoke(this)
         onSuccess.invoke(result)
         loading?.invoke(false)
+    } catch (e: RedirectResponseException) {
+        loading?.invoke(false)
+        onError?.invoke(e.response.status.description)
+    } catch (e: ClientRequestException) {
+        loading?.invoke(false)
+        onError?.invoke(e.response.status.description)
+    } catch (e: ServerResponseException) {
+        loading?.invoke(false)
+        onError?.invoke(e.response.status.description)
     } catch (e: Exception) {
         loading?.invoke(false)
-        onError?.invoke(e)
+        onError?.invoke(e.message!!)
     }
 }
 

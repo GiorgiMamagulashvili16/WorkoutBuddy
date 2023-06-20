@@ -3,8 +3,7 @@ package com.workout_buddy.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.workout_buddy.add_select.impl.presentation.select_category.di.addSelectCategoryModule
-import com.workout_buddy.core.navigation.CallBackState
+import com.workout_buddy.add_select.impl.presentation.select_category.di.selectCategoryModule
 import com.workout_buddy.core.navigation.registerGraph
 import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
 import com.workout_buddy.home.api.HomeNavigator
@@ -35,7 +34,7 @@ fun NavigationView(
             navHostController = navController,
             callback = {
                 when (it as HomeNavCallbackState) {
-                    HomeNavCallbackState.NavToAddSelectWorkout -> loadKoinModules(addSelectCategoryModule)
+                    HomeNavCallbackState.NavToAddSelectWorkout -> loadKoinModules(selectCategoryModule)
                 }
             }
         )
