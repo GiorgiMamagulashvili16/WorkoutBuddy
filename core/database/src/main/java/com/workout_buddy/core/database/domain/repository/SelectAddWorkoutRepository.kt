@@ -1,6 +1,6 @@
 package com.workout_buddy.core.database.domain.repository
 
-import com.workout_buddy.core.database.entity.WorkoutEntity
+import com.workout_buddy.core.database.data.local.entity.WorkoutEntity
 
 
 interface SelectAddWorkoutRepository {

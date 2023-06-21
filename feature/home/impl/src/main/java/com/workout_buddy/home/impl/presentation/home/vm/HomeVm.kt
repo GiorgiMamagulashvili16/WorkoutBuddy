@@ -5,6 +5,7 @@ import com.workout_buddy.core.common.domain.extensions.executeIO
 import com.workout_buddy.core.common.domain.extensions.executeWork
 import com.workout_buddy.core.common.domain.useCase.date.DateHandlerUseCase
 import com.workout_buddy.home.impl.domain.model.SelectedWorkoutState
+import com.workout_buddy.home.impl.domain.model.WorkoutSetModel
 import com.workout_buddy.home.impl.domain.usecase.HomeDataUseCase
 import com.workout_buddy.home.impl.presentation.home.state.HomeScreenAlertState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,6 +49,17 @@ class HomeVm(
             },
             loading = {
                 setAlertChannelValue(HomeScreenAlertState(isLoading = it))
+            }
+        )
+    }
+
+    fun insertNewSetItem(workoutSetModel: WorkoutSetModel) {
+        executeWork(
+            block = {
+                homeDataUseCase.addWorkoutSet(workoutSetModel)
+            },
+            onSuccess = {
+                fetchSelectedWorkoutByDate()
             }
         )
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.workout_buddy.core.database.data.local.dao.SelectedWorkoutsDao
 import com.workout_buddy.core.database.data.local.dao.WorkoutCategoryDao
+import com.workout_buddy.core.database.data.local.dao.WorkoutSetsDao
 import com.workout_buddy.core.database.data.local.dao.WorkoutsDao
 
 fun provideDbInstance(context: Context): WorkoutDatabase =
@@ -14,3 +15,5 @@ fun provideWorkoutDao(db: WorkoutDatabase): WorkoutsDao = db.getWorkoutDao()
 fun provideSelectedWorkoutDao(db: WorkoutDatabase): SelectedWorkoutsDao = db.getSelectedWorkoutDao()
 
 fun provideWorkoutCategoryDao(db: WorkoutDatabase): WorkoutCategoryDao = db.getCategoryDao()
+
+fun provideWorkoutSetsDao(db: WorkoutDatabase): WorkoutSetsDao = db.getSetsDao()

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.workout_buddy.core.database.entity.WorkoutCategoryEntity
+import com.workout_buddy.core.database.data.local.entity.WorkoutCategoryEntity
 
 @Dao
 interface WorkoutCategoryDao {

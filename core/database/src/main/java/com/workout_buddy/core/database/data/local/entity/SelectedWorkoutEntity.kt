@@ -1,4 +1,4 @@
-package com.workout_buddy.core.database.entity
+package com.workout_buddy.core.database.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,5 +11,4 @@ data class SelectedWorkoutEntity(
     val category: String,
     val date: String = "",
     val colorHex: String = "",
-    val sets: List<WorkoutSet> = emptyList(),
 )

@@ -1,7 +1,6 @@
 package com.workout_buddy.home.impl.domain.model
 
-import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
-import com.workout_buddy.core.database.entity.WorkoutSet
+import com.workout_buddy.core.database.data.local.entity.SelectedWorkoutEntity
 
 data class SelectedWorkoutModel(
     val id: Int? = null,
@@ -9,7 +8,7 @@ data class SelectedWorkoutModel(
     val categoryTitle: String,
     val categoryColorHex: String,
     val date: String = "",
-    val sets: List<WorkoutSet> = emptyList()
+    var sets: List<WorkoutSetModel> = emptyList()
 )
 
 fun SelectedWorkoutEntity.toSelectedWorkoutModel() = SelectedWorkoutModel(
@@ -18,5 +17,4 @@ fun SelectedWorkoutEntity.toSelectedWorkoutModel() = SelectedWorkoutModel(
     categoryTitle = this.category,
     categoryColorHex = colorHex,
     date = date,
-    sets = sets
 )

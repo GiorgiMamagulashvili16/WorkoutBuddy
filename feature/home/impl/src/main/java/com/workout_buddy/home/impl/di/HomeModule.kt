@@ -7,6 +7,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val homeModule = module {
-    single<HomeDataUseCase> { HomeDataUseCaseImpl(get()) }
+    single<HomeDataUseCase> { HomeDataUseCaseImpl(get(),get()) }
     viewModel { HomeVm(get(),get()) }
 }

@@ -1,6 +1,7 @@
 package com.workout_buddy.home.impl.presentation.home.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,11 +41,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.workout_buddy.core.common.domain.extensions.getColorFromHex
 import com.workout_buddy.core.common.ui.WorkoutDatePicker
 import com.workout_buddy.home.impl.R
 import com.workout_buddy.home.impl.domain.model.SelectedWorkoutModel
 import com.workout_buddy.home.impl.domain.model.SelectedWorkoutState
+import com.workout_buddy.home.impl.domain.model.WorkoutSetModel
+import com.workout_buddy.home.impl.domain.model.getSetCategoryColorById
+import com.workout_buddy.home.impl.presentation.home.component.WorkoutSetInputDialog
 import com.workout_buddy.home.impl.presentation.home.ui.components.HomeFabButtons
 import com.workout_buddy.home.impl.presentation.home.ui.components.HomeNavigationDrawer
 import com.workout_buddy.home.impl.presentation.home.ui.components.HomeTopBar
@@ -59,7 +66,8 @@ fun HomeScreen(
     onSavedNotesClick: () -> Unit,
     onSelectDate: (Long) -> Unit,
     showEmptySelectedWorkoutMessage: String? = null,
-    dateInString: String
+    dateInString: String,
+    onAddWorkoutSetClick: (WorkoutSetModel) -> Unit
 ) {
     var fabAnimationProgress by remember {
         mutableStateOf(0f)
@@ -68,6 +76,34 @@ fun HomeScreen(
     val showCalendar = remember {
         mutableStateOf(false)
     }
+    val showInputDialog = remember {
+        mutableStateOf(false)
+    }
+
+    val selectedWorkout = remember {
+        mutableStateOf<SelectedWorkoutModel?>(null)
+    }
+
+    if (showInputDialog.value) {
+        WorkoutSetInputDialog(
+            onVisibleDialog = {
+                showInputDialog.value = it
+            },
+            onAddSetListener = { setData ->
+                selectedWorkout.value?.let { selectedWorkoutModel ->
+                    onAddWorkoutSetClick.invoke(
+                        WorkoutSetModel(
+                            weight = setData.kgs,
+                            reps = setData.reps,
+                            setCategoryId = setData.setCategoryId,
+                            workoutId = selectedWorkoutModel.id!!
+                        )
+                    )
+                }
+            }
+        )
+    }
+
     HomeNavigationDrawer(
         drawerState = drawerState,
         onCalculationItemClick = { onCalculationItemClick.invoke() },
@@ -140,7 +176,11 @@ fun HomeScreen(
                                     SelectedWorkoutItem(
                                         item = item.model,
                                         modifier = Modifier
-                                            .fillMaxWidth()
+                                            .fillMaxWidth(),
+                                        showInputDialog = { model ->
+                                            selectedWorkout.value = model
+                                            showInputDialog.value = true
+                                        }
                                     )
                                     Spacer(modifier = Modifier.height(14.dp))
                                 }
@@ -156,7 +196,8 @@ fun HomeScreen(
 @Composable
 fun SelectedWorkoutItem(
     modifier: Modifier = Modifier,
-    item: SelectedWorkoutModel
+    item: SelectedWorkoutModel,
+    showInputDialog: (SelectedWorkoutModel) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -169,7 +210,8 @@ fun SelectedWorkoutItem(
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 15.dp)) {
+                .padding(horizontal = 10.dp, vertical = 15.dp)
+        ) {
             Row(
                 Modifier
                     .fillMaxWidth(),
@@ -190,7 +232,7 @@ fun SelectedWorkoutItem(
                     modifier = Modifier.fillMaxWidth(0.85f)
                 )
                 Spacer(modifier = Modifier.width(15.dp))
-                IconButton(onClick = { /*TODO*/ }, Modifier.size(24.dp)) {
+                IconButton(onClick = { showInputDialog.invoke(item) }, Modifier.size(24.dp)) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "add set",
@@ -198,7 +240,54 @@ fun SelectedWorkoutItem(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.width(40.dp))
+                LazyRow(content = {
+                    items(item.sets) {
+                        WorkoutSetItem(
+                            workoutSetModel = it,
+                            modifier = Modifier
+                                .width(60.dp)
+                                .aspectRatio(1f)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                    }
+                })
+            }
         }
+    }
+}
 
+@Composable
+private fun WorkoutSetItem(
+    modifier: Modifier = Modifier,
+    workoutSetModel: WorkoutSetModel
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(
+            1.dp,
+            color = getSetCategoryColorById(workoutSetModel.setCategoryId).getColorFromHex()
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
+    ) {
+        Column(modifier = Modifier.padding(10.dp)) {
+            Spacer(modifier = Modifier.height(6.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(text = "KG", fontSize = 11.sp)
+                Text(text = "${workoutSetModel.weight}", fontSize = 11.sp)
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(text = "RP", fontSize = 11.sp)
+                Text(text = "${workoutSetModel.reps}", fontSize = 11.sp)
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+        }
     }
 }

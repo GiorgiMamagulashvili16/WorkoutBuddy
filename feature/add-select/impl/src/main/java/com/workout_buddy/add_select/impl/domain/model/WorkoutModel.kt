@@ -5,9 +5,9 @@ import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.add_select.impl.data.dtos.WorkoutsResponseDTO
 import com.workout_buddy.core.common.domain.model.WorkoutBaseModel
 import com.workout_buddy.core.common.domain.model.WorkoutsCategory
-import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
-import com.workout_buddy.core.database.entity.WorkoutCategoryEntity
-import com.workout_buddy.core.database.entity.WorkoutEntity
+import com.workout_buddy.core.database.data.local.entity.SelectedWorkoutEntity
+import com.workout_buddy.core.database.data.local.entity.WorkoutCategoryEntity
+import com.workout_buddy.core.database.data.local.entity.WorkoutEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

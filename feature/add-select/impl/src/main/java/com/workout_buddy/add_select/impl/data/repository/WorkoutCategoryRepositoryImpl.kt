@@ -8,7 +8,6 @@ import com.workout_buddy.add_select.impl.domain.repository.WorkoutCategoryReposi
 import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.core.common.domain.util.WorkoutsCategoryDataUtil
 import com.workout_buddy.core.database.domain.repository.CategoryRepository
-import com.workout_buddy.core.database.entity.WorkoutCategoryEntity
 
 class WorkoutCategoryRepositoryImpl(
     private val categoryRepository: CategoryRepository,

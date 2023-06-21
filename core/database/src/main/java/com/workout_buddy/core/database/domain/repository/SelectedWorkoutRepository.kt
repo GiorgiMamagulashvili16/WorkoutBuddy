@@ -1,6 +1,6 @@
 package com.workout_buddy.core.database.domain.repository
 
-import com.workout_buddy.core.database.entity.SelectedWorkoutEntity
+import com.workout_buddy.core.database.data.local.entity.SelectedWorkoutEntity
 
 interface SelectedWorkoutRepository {
     suspend fun insertSelectedWorkout(selectedWorkoutEntity: SelectedWorkoutEntity)

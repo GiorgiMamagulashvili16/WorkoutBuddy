@@ -87,7 +87,10 @@ class HomeNavigatorImpl : HomeNavigator {
                     }
                 },
                 showEmptySelectedWorkoutMessage = emptyListMessage.value,
-                dateInString = vm.dateInString.getFlowValue()
+                dateInString = vm.dateInString.getFlowValue(),
+                onAddWorkoutSetClick = {
+                    vm.insertNewSetItem(it)
+                }
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.workout_buddy.core.database.entity
+package com.workout_buddy.core.database.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
