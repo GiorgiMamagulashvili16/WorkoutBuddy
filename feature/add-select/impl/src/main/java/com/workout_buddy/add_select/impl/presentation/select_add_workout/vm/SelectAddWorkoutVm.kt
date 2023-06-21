@@ -5,6 +5,7 @@ import com.workout_buddy.add_select.impl.domain.useCase.select_add_workout.Selec
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenAlertState
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenState
 import com.workout_buddy.core.common.base.BaseVm
+import com.workout_buddy.core.common.base.ScreenStateChannel
 import com.workout_buddy.core.common.domain.extensions.executeWork
 import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +37,10 @@ class SelectAddWorkoutVm(
                 screenStateFlow.value = it
             },
             loading = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
+                setScreenStateChannel(ScreenStateChannel(isLoading = it))
+            },
+            onError = {
+                setScreenStateChannel(ScreenStateChannel(error = it))
             }
         )
     }
@@ -54,10 +58,10 @@ class SelectAddWorkoutVm(
                 )
             },
             loading = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
+                setScreenStateChannel(ScreenStateChannel(isLoading = it))
             },
             onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
+                setScreenStateChannel(ScreenStateChannel(error = it))
             }
         )
     }

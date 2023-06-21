@@ -50,7 +50,6 @@ class HomeNavigatorImpl : HomeNavigator {
             vm.screenAlertChannel.CollectChannelComposable {
                 val state = it as HomeScreenAlertState
                 emptyListMessage.value = state.emptyListText
-                showLoading.value = state.isLoading
             }
 
             if (showLoading.value) {

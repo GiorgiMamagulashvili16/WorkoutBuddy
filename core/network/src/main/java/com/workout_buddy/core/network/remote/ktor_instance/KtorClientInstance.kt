@@ -28,6 +28,6 @@ fun provideKtorClient(): HttpClient = HttpClient(OkHttp) {
 }
 
 fun HttpRequestBuilder.provideHeaders() {
-    header("X-RapidAPI-Key", "b28f05d591msh5fe7ed53a6d788cp10b26ejsn9acdfba7da99")
+    header("X-RapidAPI-Key", "b28f05d591msh5fe7ed53a6d788cp10b26ejsn9acdfba7da9")
     header("X-RapidAPI-Host", "exercisedb.p.rapidapi.")
 }

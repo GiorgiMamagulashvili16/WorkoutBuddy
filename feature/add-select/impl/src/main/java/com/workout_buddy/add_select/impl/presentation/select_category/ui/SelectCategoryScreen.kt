@@ -2,89 +2,46 @@ package com.workout_buddy.add_select.impl.presentation.select_category.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ExperimentalMotionApi
-import androidx.constraintlayout.compose.MotionLayout
-import androidx.constraintlayout.compose.MotionScene
+import androidx.navigation.NavController
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.add_select.impl.presentation.common.WorkoutListItem
+import com.workout_buddy.core.common.base.BaseFlowScreen
+import com.workout_buddy.core.common.base.ScreenStateChannel
 import com.workout_buddy.core.common.domain.model.WorkoutsCategory
+import kotlinx.coroutines.channels.Channel
 
 @Composable
 fun SelectCategoryScreen(
     categoryList: List<WorkoutsCategory>,
     onCategoryClick: (WorkoutsCategory) -> Unit,
-    onNavBack: () -> Unit
+    navController: NavController,
+    screenStateChannel: Channel<ScreenStateChannel>
 ) {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface),
-    ) {
-
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-            horizontalAlignment = CenterHorizontally
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .height(15.dp)
-            )
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = { onNavBack.invoke() },
-                ) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back nav")
-                }
-                Text(
-                    text = "Select Workout Category",
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.width(20.dp))
-            }
-
+    BaseFlowScreen(
+        navController = navController,
+        screenTitle = "Select Prefer category",
+        screenChannel = screenStateChannel,
+        content = {
             if (categoryList.isEmpty()) {
                 Spacer(modifier = Modifier.fillMaxHeight(0.4f))
                 Icon(
@@ -111,7 +68,7 @@ fun SelectCategoryScreen(
                 isVisible = categoryList.isNotEmpty()
             )
         }
-    }
+    )
 }
 
 @Composable

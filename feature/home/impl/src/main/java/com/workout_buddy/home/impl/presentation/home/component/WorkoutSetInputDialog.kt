@@ -134,9 +134,9 @@ private fun PrepareFieldRow(onSelect: (Int) -> Unit) {
                     }
                     .background(
                         if (selectedIndex.value == ind) {
-                            MaterialTheme.colorScheme.errorContainer
+                            item.color.getColorFromHex()
                         } else
-                            MaterialTheme.colorScheme.tertiaryContainer
+                            MaterialTheme.colorScheme.background
                     ),
                 contentAlignment = Alignment.Center,
             ) {
@@ -144,7 +144,7 @@ private fun PrepareFieldRow(onSelect: (Int) -> Unit) {
                     text = item.title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 11.sp,
-                    color = item.color.getColorFromHex()
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

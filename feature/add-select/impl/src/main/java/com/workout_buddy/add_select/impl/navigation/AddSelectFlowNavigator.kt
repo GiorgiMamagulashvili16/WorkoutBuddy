@@ -9,13 +9,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.state.SelectAddWorkoutScreenAlertState
-import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.ui.SelectAddWorkoutScreen
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.vm.SelectAddWorkoutVm
 import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.domain.extensions.getFlowValue
-import com.workout_buddy.core.common.ui.LoadingView
-import com.workout_buddy.core.common.ui.MessageDialog
+import com.workout_buddy.core.common.domain.model.WorkoutsCategory
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.core.navigation.FeatureNavigatorApi
 import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
@@ -51,41 +49,18 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 val homeNavigator: HomeNavigator by inject()
                 val addSelectNavigator: AddSelectNavigator by inject()
 
-
-                val showMessageDialog = remember {
-                    mutableStateOf("")
-                }
-                val showLoader = remember {
-                    mutableStateOf(false)
-                }
-
                 it.arguments?.getParcelable<WorkoutsCategory>(addSelectWorkoutNavArg)
                     ?.let { model ->
                         vm.setCurrentCategory(model)
                         vm.setSelectedWorkoutCategory(model)
                     }
 
-                if (showMessageDialog.value.isNotBlank()) {
-                    MessageDialog(
-                        message = showMessageDialog.value,
-                        setShowDialog = { show -> if (show.not()) showMessageDialog.value = "" }
-                    )
-                }
-                if (showLoader.value) {
-                    LoadingView()
-                }
-
                 vm.screenAlertChannel.CollectChannelComposable(
                     block = { alertState ->
                         val state = alertState as SelectAddWorkoutScreenAlertState
 
-                        showLoader.value = state.isLoading
-
                         if (state.isAddWorkoutSuccess) {
                             vm.setSelectedWorkoutCategory()
-                        }
-                        if (state.errorMes != null) {
-                            showMessageDialog.value = state.errorMes
                         }
                         if (state.isAddSelectedWorkoutSuccess) {
                             navController.navigate(homeNavigator.getHomeRoute()) {
@@ -105,10 +80,8 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                     onItemClick = { model ->
                         vm.insertSelectedWorkout(model)
                     },
-                    onNavBack = {
-                        navController.popBackStack()
-                    },
-                    workoutsCategoryTitle = vm.currentCategory.getFlowValue()?.title ?: ""
+                    workoutsCategoryTitle = vm.currentCategory.getFlowValue()?.title ?: "",
+                    screenStateChannel = vm.screenStateChannel
                 )
             }
         }

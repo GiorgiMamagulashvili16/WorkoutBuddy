@@ -40,13 +40,13 @@ fun <T> ViewModel.executeWork(
         loading?.invoke(false)
     } catch (e: RedirectResponseException) {
         loading?.invoke(false)
-        onError?.invoke(e.response.status.description)
+        onError?.invoke(e.localizedMessage ?: e.message)
     } catch (e: ClientRequestException) {
         loading?.invoke(false)
-        onError?.invoke(e.response.status.description)
+        onError?.invoke(e.localizedMessage ?: e.message)
     } catch (e: ServerResponseException) {
         loading?.invoke(false)
-        onError?.invoke(e.response.status.description)
+        onError?.invoke(e.localizedMessage ?: e.message)
     } catch (e: Exception) {
         loading?.invoke(false)
         onError?.invoke(e.message!!)
