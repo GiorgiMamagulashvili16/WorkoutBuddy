@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.workout_buddy.add_select.impl.R
 import com.workout_buddy.core.common.domain.extensions.getColorFromHex
 import com.workout_buddy.core.common.domain.model.WorkoutBaseModel
@@ -52,6 +53,7 @@ fun WorkoutListItem(
                 text = data.title,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 13.sp
             )
         }
     }

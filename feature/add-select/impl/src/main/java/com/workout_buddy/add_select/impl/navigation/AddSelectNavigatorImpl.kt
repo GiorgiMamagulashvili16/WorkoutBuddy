@@ -1,18 +1,23 @@
 package com.workout_buddy.add_select.impl.navigation
 
 import android.net.Uri
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.google.gson.Gson
+import com.workout_buddy.add_select.impl.presentation.select_category.states.SelectCategoryScreenAlertState
 import com.workout_buddy.add_select.impl.presentation.select_category.ui.SelectCategoryScreen
 import com.workout_buddy.add_select.impl.presentation.select_category.vm.SelectCategoryVm
+import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.domain.extensions.getFlowValue
+import com.workout_buddy.core.common.ui.LoadingView
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
 import org.koin.androidx.compose.inject
 
-class AddSelectNavigatorImpl: AddSelectNavigator {
+class AddSelectNavigatorImpl : AddSelectNavigator {
 
     private val addSelectCategoryRoute = "/add-select/category"
 
@@ -28,6 +33,19 @@ class AddSelectNavigatorImpl: AddSelectNavigator {
         navGraphBuilder.composable(route = addSelectCategoryRoute) {
             val vm: SelectCategoryVm by inject()
             val listOfCategory = vm.categoryList.getFlowValue()
+
+            val showLoader = remember {
+                mutableStateOf(false)
+            }
+            vm.screenAlertChannel.CollectChannelComposable(block = {
+                val state = it as SelectCategoryScreenAlertState
+                showLoader.value = state.isLoading
+            })
+
+            if (showLoader.value) {
+                LoadingView()
+            }
+
             SelectCategoryScreen(
                 categoryList = listOfCategory,
                 onCategoryClick = {

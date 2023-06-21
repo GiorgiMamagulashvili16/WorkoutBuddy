@@ -8,8 +8,8 @@ internal class SelectAddWorkoutRepositoryImpl(
     private val workoutsDao: WorkoutsDao
 ) : SelectAddWorkoutRepository {
 
-    override suspend fun getAllSavedWorkoutsByCategory(categoryId: Int): List<WorkoutEntity> {
-        return workoutsDao.getWorkoutListByCategoryId(categoryId)
+    override suspend fun getAllSavedWorkoutsByCategory(category: String): List<WorkoutEntity> {
+        return workoutsDao.getWorkoutListByCategoryId(category)
     }
 
     override suspend fun isWorkoutExits(title: String): Boolean {
@@ -18,5 +18,9 @@ internal class SelectAddWorkoutRepositoryImpl(
 
     override suspend fun insertWorkout(workout: WorkoutEntity) {
         workoutsDao.insertWorkout(workout)
+    }
+
+    override suspend fun insertWorkoutList(workoutList: List<WorkoutEntity>) {
+        workoutsDao.insertWorkoutList(workoutList)
     }
 }

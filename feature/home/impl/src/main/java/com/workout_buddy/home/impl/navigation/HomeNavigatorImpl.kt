@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.domain.extensions.getFlowValue
+import com.workout_buddy.core.common.ui.LoadingView
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.feature.add_select.api.navigation.AddSelectNavigator
 import com.workout_buddy.home.api.HomeNavigator
@@ -42,10 +43,18 @@ class HomeNavigatorImpl : HomeNavigator {
             val emptyListMessage = remember {
                 mutableStateOf<String?>(null)
             }
+            val showLoading = remember {
+                mutableStateOf(false)
+            }
 
             vm.screenAlertChannel.CollectChannelComposable {
                 val state = it as HomeScreenAlertState
                 emptyListMessage.value = state.emptyListText
+                showLoading.value = state.isLoading
+            }
+
+            if (showLoading.value) {
+                LoadingView()
             }
 
             HomeScreen(

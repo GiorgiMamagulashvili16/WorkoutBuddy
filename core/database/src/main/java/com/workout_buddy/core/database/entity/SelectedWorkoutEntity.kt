@@ -8,7 +8,8 @@ data class SelectedWorkoutEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     val title: String,
-    val categoryId: Int,
+    val category: String,
     val date: String = "",
+    val colorHex: String = "",
     val sets: List<WorkoutSet> = emptyList(),
 )

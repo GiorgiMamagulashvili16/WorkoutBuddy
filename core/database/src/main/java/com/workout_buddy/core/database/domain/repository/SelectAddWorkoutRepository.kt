@@ -4,7 +4,8 @@ import com.workout_buddy.core.database.entity.WorkoutEntity
 
 
 interface SelectAddWorkoutRepository {
-    suspend fun getAllSavedWorkoutsByCategory(categoryId: Int): List<WorkoutEntity>
+    suspend fun getAllSavedWorkoutsByCategory(category: String): List<WorkoutEntity>
     suspend fun isWorkoutExits(title: String): Boolean
     suspend fun insertWorkout(workout: WorkoutEntity)
+    suspend fun insertWorkoutList(workoutList: List<WorkoutEntity>)
 }

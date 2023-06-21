@@ -14,6 +14,7 @@ import com.workout_buddy.add_select.impl.presentation.select_add_workout.ui.Sele
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.vm.SelectAddWorkoutVm
 import com.workout_buddy.core.common.domain.extensions.CollectChannelComposable
 import com.workout_buddy.core.common.domain.extensions.getFlowValue
+import com.workout_buddy.core.common.ui.LoadingView
 import com.workout_buddy.core.common.ui.MessageDialog
 import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.core.navigation.FeatureNavigatorApi
@@ -54,6 +55,9 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                 val showMessageDialog = remember {
                     mutableStateOf("")
                 }
+                val showLoader = remember {
+                    mutableStateOf(false)
+                }
 
                 it.arguments?.getParcelable<WorkoutsCategory>(addSelectWorkoutNavArg)
                     ?.let { model ->
@@ -67,10 +71,15 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
                         setShowDialog = { show -> if (show.not()) showMessageDialog.value = "" }
                     )
                 }
-                val workoutTitle = vm.workoutTitle.collectAsState().value
+                if (showLoader.value) {
+                    LoadingView()
+                }
+
                 vm.screenAlertChannel.CollectChannelComposable(
                     block = { alertState ->
                         val state = alertState as SelectAddWorkoutScreenAlertState
+
+                        showLoader.value = state.isLoading
 
                         if (state.isAddWorkoutSuccess) {
                             vm.setSelectedWorkoutCategory()
@@ -91,12 +100,8 @@ object AddSelectFlowNavigator : FeatureNavigatorApi {
 
                 SelectAddWorkoutScreen(
                     navController = navController,
-                    workoutTitle = workoutTitle,
                     showEmptyListMessage = screenState.showEmptyWorkoutsAlert,
                     workoutList = screenState.workoutsList,
-                    onWorkoutChanged = { title ->
-                        vm.saveNewWorkout(title)
-                    },
                     onItemClick = { model ->
                         vm.insertSelectedWorkout(model)
                     },

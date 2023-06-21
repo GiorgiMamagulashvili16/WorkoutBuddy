@@ -8,6 +8,6 @@ data class WorkoutEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     val title: String,
-    val categoryId: Int,
+    val category: String,
     val colorHex: String
 )

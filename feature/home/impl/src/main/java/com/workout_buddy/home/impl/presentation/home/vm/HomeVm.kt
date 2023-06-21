@@ -46,6 +46,9 @@ class HomeVm(
                     selectedWorkoutsFlow.value = it
                 }
             },
+            loading = {
+                setAlertChannelValue(HomeScreenAlertState(isLoading = it))
+            }
         )
     }
 

@@ -18,9 +18,6 @@ class SelectAddWorkoutVm(
     private val screenStateFlow = MutableStateFlow(SelectAddWorkoutScreenState())
     val screenState = screenStateFlow.asStateFlow()
 
-    private val workoutTitleFlow = MutableStateFlow("")
-    val workoutTitle = workoutTitleFlow.asStateFlow()
-
     private val currentCategoryFlow = MutableStateFlow<WorkoutsCategory?>(null)
     var currentCategory = currentCategoryFlow.asStateFlow()
 
@@ -32,61 +29,14 @@ class SelectAddWorkoutVm(
         executeWork(
             block = {
                 selectAddWorkoutUseCase.getAllSavedWorkouts(
-                    workoutsCategory?.id ?: currentCategoryFlow.value?.id!!
+                    workoutsCategory ?: currentCategoryFlow.value!!
                 )
             },
             onSuccess = {
                 screenStateFlow.value = it
-            }
-        )
-    }
-
-    private fun setWorkoutTitle(newTitle: String) {
-        workoutTitleFlow.update { newTitle }
-    }
-
-    fun saveNewWorkout(newWorkoutTitle: String) {
-        setWorkoutTitle(newWorkoutTitle)
-        if (newWorkoutTitle.isBlank()) {
-            return
-        }
-        checkIfWorkoutAlreadyExits(newWorkoutTitle)
-    }
-
-    private fun checkIfWorkoutAlreadyExits(workoutTitle: String) {
-        executeWork(
-            block = {
-                selectAddWorkoutUseCase.isNewWorkoutExits(workoutTitle)
-            },
-            onSuccess = { workoutExits ->
-                if (workoutExits) {
-                    screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = "your workout is already added"))
-                } else {
-                    insertNewWorkout()
-                }
             },
             loading = {
                 screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
-            },
-            onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
-            }
-        )
-    }
-
-    private fun insertNewWorkout(model: WorkoutModel = getWorkoutModelForInsert()) {
-        executeWork(
-            block = {
-                selectAddWorkoutUseCase.insertWorkout(model)
-            },
-            onSuccess = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isAddWorkoutSuccess = true))
-            },
-            loading = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(isLoading = it))
-            },
-            onError = {
-                screenAlertChannel.trySend(SelectAddWorkoutScreenAlertState(errorMes = it))
             }
         )
     }
@@ -111,11 +61,4 @@ class SelectAddWorkoutVm(
             }
         )
     }
-
-    private fun getWorkoutModelForInsert() = WorkoutModel(
-        title = workoutTitle.value,
-        categoryId = currentCategoryFlow.value?.id,
-        colorHex = currentCategoryFlow.value?.colorHex!!,
-        imageRes = null
-    )
 }

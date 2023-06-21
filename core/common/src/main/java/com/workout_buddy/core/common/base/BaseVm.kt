@@ -5,4 +5,8 @@ import kotlinx.coroutines.channels.Channel
 
 abstract class BaseVm: ViewModel() {
     val screenAlertChannel = Channel<BaseChannelState>(Channel.UNLIMITED)
+
+    protected fun setAlertChannelValue(value: BaseChannelState) {
+        screenAlertChannel.trySend(value)
+    }
 }

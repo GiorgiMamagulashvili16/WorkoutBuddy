@@ -12,12 +12,15 @@ interface WorkoutsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkout(workoutEntity: WorkoutEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWorkoutList(workoutList: List<WorkoutEntity>)
+
     @Query("SELECT EXISTS(SELECT * FROM workouts_table WHERE title = :title)")
     suspend fun isWorkoutExits(title: String): Boolean
 
     @Query("SELECT * FROM workouts_table ORDER BY id DESC")
     suspend fun getAllWorkouts(): List<WorkoutEntity>
 
-    @Query("SELECT * FROM workouts_table WHERE categoryId = :id")
-    suspend fun getWorkoutListByCategoryId(id: Int): List<WorkoutEntity>
+    @Query("SELECT * FROM workouts_table WHERE  category= :category")
+    suspend fun getWorkoutListByCategoryId(category: String): List<WorkoutEntity>
 }

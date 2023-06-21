@@ -139,7 +139,8 @@ fun HomeScreen(
                                 if (item is SelectedWorkoutState.Item) {
                                     SelectedWorkoutItem(
                                         item = item.model,
-                                        modifier = Modifier.fillMaxWidth(0.7f)
+                                        modifier = Modifier
+                                            .fillMaxWidth()
                                     )
                                     Spacer(modifier = Modifier.height(14.dp))
                                 }
@@ -165,25 +166,39 @@ fun SelectedWorkoutItem(
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Row(
+        Column(
             Modifier
                 .fillMaxWidth()
-                .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+                .padding(horizontal = 10.dp, vertical = 15.dp)) {
+            Row(
+                Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
-            Spacer(modifier = Modifier.width(4.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_workout),
-                contentDescription = null,
-                modifier = Modifier.size(28.dp),
-                tint = item.categoryColorHex.getColorFromHex()
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            Text(text = item.title, color = MaterialTheme.colorScheme.onTertiaryContainer)
-            Spacer(modifier = Modifier.width(15.dp))
-            IconButton(onClick = { /*TODO*/ }, Modifier.size(24.dp)) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "add set")
+                Spacer(modifier = Modifier.width(4.dp))
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_workout),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = item.categoryColorHex.getColorFromHex()
+                )
+                Spacer(modifier = Modifier.width(20.dp))
+                Text(
+                    text = item.title,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    modifier = Modifier.fillMaxWidth(0.85f)
+                )
+                Spacer(modifier = Modifier.width(15.dp))
+                IconButton(onClick = { /*TODO*/ }, Modifier.size(24.dp)) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "add set",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             }
         }
+
     }
 }

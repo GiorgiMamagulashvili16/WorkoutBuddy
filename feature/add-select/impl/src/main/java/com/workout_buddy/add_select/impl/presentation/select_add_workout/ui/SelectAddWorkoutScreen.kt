@@ -32,35 +32,21 @@ import com.workout_buddy.add_select.impl.domain.model.WorkoutModel
 import com.workout_buddy.add_select.impl.presentation.common.WorkoutListItem
 import com.workout_buddy.add_select.impl.presentation.select_add_workout.di.selectAddWorkoutModule
 import com.workout_buddy.core.common.domain.extensions.HandleBackNavigation
-import com.workout_buddy.core.common.ui.InputDialog
 
 @Composable
 fun SelectAddWorkoutScreen(
     navController: NavController,
-    workoutTitle: String,
     showEmptyListMessage: Boolean,
     workoutList: List<WorkoutModel>,
-    onWorkoutChanged: (String) -> Unit,
     onItemClick: (WorkoutModel) -> Unit,
     onNavBack: () -> Unit,
-    workoutsCategoryTitle: String = ""
+    workoutsCategoryTitle: String = "",
 ) {
     HandleBackNavigation(
         navController = navController,
         enablePop = true,
         koinModule = selectAddWorkoutModule
     )
-
-    val showInputDialog = remember {
-        mutableStateOf(false)
-    }
-    if (showInputDialog.value) {
-        InputDialog(
-            value = workoutTitle,
-            setShowDialog = { showInputDialog.value = it },
-            setValue = { onWorkoutChanged.invoke(it) },
-        )
-    }
 
     Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(10.dp))
@@ -81,7 +67,7 @@ fun SelectAddWorkoutScreen(
             )
             IconButton(
                 onClick = {
-                    showInputDialog.value = true
+
                 },
                 modifier = Modifier
                     .size(40.dp)
