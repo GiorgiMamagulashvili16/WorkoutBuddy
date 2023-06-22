@@ -2,6 +2,7 @@ if (name == "app")
     apply plugin: "com.android.application"
 else apply plugin: "com.android.library"
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdk ProjectConfig.compilerSdk
@@ -49,4 +50,10 @@ dependencies {
     implementation libs.lifecycle.ktx
     implementation libs.compose.ui
     implementation libs.material3.compose
+
+    implementation libs.ktor.gson
+    implementation libs.ktor.okhttp
+    implementation libs.ktor.core
+    implementation libs.ktor.content.nagogiatiin
+    implementation libs.koin
 }

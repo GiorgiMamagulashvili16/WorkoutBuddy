@@ -1,9 +1,9 @@
 package com.workout_buddy.onboarding.impl.navigation
 
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.workout_buddy.core.navigation.CallBackState
 import com.workout_buddy.onboarding.api.OnBoardingNavigator
 
 class OnBoardingNavigatorImpl: OnBoardingNavigator {
@@ -16,7 +16,7 @@ class OnBoardingNavigatorImpl: OnBoardingNavigator {
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavHostController,
-        modifier: Modifier
+        callback: (CallBackState) -> Unit
     ) {
         navGraphBuilder.composable(baseRoute) {
             //TODO add onboarding screen here

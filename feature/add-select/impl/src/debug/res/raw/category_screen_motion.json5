@@ -1,0 +1,79 @@
+{
+  ConstraintSets: {
+    start: {
+      top_section: {
+        height: 300,
+        top: [
+          'parent',
+          'top',
+          0
+        ],
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+      },
+      category_list: {
+        top: [
+          'spacer',
+          'top',
+          0
+        ],
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+      }
+    },
+    end: {
+      top_section: {
+        height: 100,
+        top: [
+          'parent',
+          'top',
+          0
+        ],
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+      },
+      category_list: {
+        top: [
+          'spacer',
+          'top',
+          0
+        ],
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+      }
+    },
+
+  }
+}

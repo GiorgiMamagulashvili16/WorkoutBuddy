@@ -1,0 +1,10 @@
+apply plugin: 'GradleCommonConfig'
+android {
+    namespace = "com.workout_buddy.core.common"
+}
+dependencies {
+    implementation(libs.koin)
+    implementation libs.compose.navigation
+    implementation libs.compose.constraint
+    implementation libs.lottie
+}

@@ -1,0 +1,10 @@
+apply plugin: 'GradleCommonConfig'
+
+android {
+    namespace 'com.workout_buddy.feature.add_select.api'
+}
+
+dependencies {
+    api project(":core:navigation")
+    implementation libs.compose.navigation
+}
